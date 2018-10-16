@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+int a[1000];
+int chunk = 200;
+
+void *Add(void *arg){
+	int start = (int)arg;
+	int end = start + chunk ;
+	int sum=0 ;
+	for(int i =0; i<end;i++)
+		sum = sum+a[i];
+	return ((void*)sum);
+}
+int main(){
+	int s1,s2,s3,s4,s5;
+	pthread_t t1,t2,t3,t4,t5;
+	
+	for(int i=0 ; i<1000; i++)
+		a[i] = i;
+	
+	pthread_create(&t1,NULL,Add,(void*)(0 * chunk));
+	pthread_create(&t2,NULL,Add,(void*)(1 * chunk));
+	pthread_create(&t3,NULL,Add,(void*)(2 * chunk));
+	pthread_create(&t4,NULL,Add,(void*)(3 * chunk));
+	pthread_create(&t5,NULL,Add,(void*)(4 * chunk));
+
+	pthread_join(t1, (void**) & s1);
+	pthread_join(t2, (void**) & s2);
+	pthread_join(t3, (void**) & s3);
+	pthread_join(t4, (void**) & s4);
+	pthread_join(t5, (void**) & s5);
+	
+	int sum = s1+s2+s3+s4+s5;
+	printf("Sum %d" , sum);
+
+	return 0;
+}
