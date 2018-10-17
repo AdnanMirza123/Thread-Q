@@ -3,19 +3,19 @@
 #include <pthread.h>
 
 int a[1000];
-int chunk = 200;
+int chunk = 100;
 
 void *Add(void *arg){
 	int start = (int)arg;
 	int end = start + chunk ;
 	int sum=0 ;
-	for(int i =0; i<end;i++)
+	for(int i =0; i<end ;i++)
 		sum = sum+a[i];
 	return ((void*)sum);
 }
 int main(){
-	int s1,s2,s3,s4,s5;
-	pthread_t t1,t2,t3,t4,t5;
+	int s1,s2,s3,s4,s5,s6,s7,s8,s9,s10;
+	pthread_t t1,t2,t3,t4,t5,t6,t7,t8,t9,t10;
 	
 	for(int i=0 ; i<1000; i++)
 		a[i] = i;
@@ -25,14 +25,24 @@ int main(){
 	pthread_create(&t3,NULL,Add,(void*)(2 * chunk));
 	pthread_create(&t4,NULL,Add,(void*)(3 * chunk));
 	pthread_create(&t5,NULL,Add,(void*)(4 * chunk));
+	pthread_create(&t6,NULL,Add,(void*)(5 * chunk));
+	pthread_create(&t7,NULL,Add,(void*)(6 * chunk));
+	pthread_create(&t8,NULL,Add,(void*)(7 * chunk));
+	pthread_create(&t9,NULL,Add,(void*)(8 * chunk));
+	pthread_create(&t10,NULL,Add,(void*)(9 * chunk));
 
 	pthread_join(t1, (void**) & s1);
 	pthread_join(t2, (void**) & s2);
 	pthread_join(t3, (void**) & s3);
 	pthread_join(t4, (void**) & s4);
 	pthread_join(t5, (void**) & s5);
+	pthread_join(t6, (void**) & s6);
+	pthread_join(t7, (void**) & s7);
+	pthread_join(t8, (void**) & s8);
+	pthread_join(t9, (void**) & s9);
+	pthread_join(t10, (void**) & s10);
 	
-	int sum = s1+s2+s3+s4+s5;
+	int sum = s1+s2+s3+s4+s5+s6+s7+s8+s9+s10;
 	printf("Sum %d" , sum);
 
 	return 0;
